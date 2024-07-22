@@ -5,21 +5,120 @@
     <script src="https://kit.fontawesome.com/298342188b.js" crossorigin="anonymous"></script>
     <title>Login to Application</title>
     <link rel="stylesheet" href="index.css">
+    <style>
+        .hidden {
+            display: none;
+        }
+        .container {
+            max-width: 500px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .box {
+            margin-bottom: 15px;
+        }
+        .btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 
 <body>
     <div class="container">
-        <h1>Log In</h1>
-        <div class="box">
-            <i class="fa fa-envelope"></i>
-            <input type="email" name="email" id="email" placeholder="Enter Your Email">
+        
+
+       
+
+        <!-- Sign Up Form -->
+        <div id="signup-form" class="hidden">
+            <h1 id="heading">Sign Up</h1>
+            <div class="box">
+                <i class="fa fa-envelope"></i>
+                <input type="email" name="email" id="signup-email" placeholder="Enter Your Email">
+            </div>
+            <div class="box">
+                <i class="fa fa-key"></i>
+                <input type="password" name="password" id="signup-password" placeholder="Enter Your Password">
+            </div>
+            <button class="btn" onclick="signUp()">Sign Up</button>
+            <p>Already have an account? <a href="#" onclick="showLoginForm()">Log In</a></p>
         </div>
-        <div class="box">
-            <i class="fa fa-key"></i>
-            <input type="password" name="password" id="password" placeholder="Enter Your Password">
+
+         <!-- Login Form -->
+         <div id="login-form">
+            <h1 id="heading">Log In</h1>
+            <div class="box">
+                <i class="fa fa-envelope"></i>
+                <input type="email" name="email" id="login-email" placeholder="Enter Your Email">
+            </div>
+            <div class="box">
+                <i class="fa fa-key"></i>
+                <input type="password" name="password" id="login-password" placeholder="Enter Your Password">
+            </div>
+            <button class="btn" onclick="login()">Sign In</button>
+            <p>Don't have an account? <a href="#" onclick="showSignUpForm()">Sign Up</a></p>
         </div>
-        <button class="btn">Sign IN</button>
+
+        <!-- Welcome Message -->
+        <div id="welcome-message" class="hidden">
+            <h1 id="welcome-heading"></h1>
+        </div>
     </div>
+
+    <script>
+        function showLoginForm() {
+            document.getElementById('signup-form').classList.add('hidden');
+            document.getElementById('login-form').classList.remove('hidden');
+            document.getElementById('welcome-message').classList.add('hidden');
+        }
+
+        function showSignUpForm() {
+            document.getElementById('login-form').classList.add('hidden');
+            document.getElementById('signup-form').classList.remove('hidden');
+            document.getElementById('welcome-message').classList.add('hidden');
+        }
+
+        function signUp() {
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+
+            if (email && password) {
+                localStorage.setItem('userEmail', email);
+                localStorage.setItem('userPassword', password);
+                alert('Sign up successful! Please log in.');
+                showLoginForm();
+            } else {
+                alert('Please enter both email and password.');
+            }
+        }
+
+        function login() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            const storedEmail = localStorage.getItem('userEmail');
+            const storedPassword = localStorage.getItem('userPassword');
+
+            if (email === storedEmail && password === storedPassword) {
+                document.getElementById('login-form').classList.add('hidden');
+                document.getElementById('welcome-message').classList.remove('hidden');
+                document.getElementById('welcome-heading').textContent = `Welcome, ${email}!`;
+            } else {
+                alert('Invalid email or password. Please try again.');
+            }
+        }
+    </script>
 </body>
 
 </html>
